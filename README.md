@@ -12,7 +12,7 @@
 
 ### 🚀 Tải đa kết nối, nhanh hết băng thông
 
-Mỗi file được chia thành nhiều đoạn theo HTTP Range và tải song song bằng **16 kết nối** (tuỳ chỉnh 1–32). Vì CDN thường bóp tốc độ theo **từng kết nối** chứ không theo tổng, mở nhiều kết nối cho tốc độ tăng gần như tuyến tính — thực tế đạt **~100 MB/s** trên đường truyền đủ nhanh.
+Mỗi file được chia thành nhiều đoạn theo HTTP Range và tải song song bằng **16 kết nối** (tuỳ chỉnh 1–32). Vì CDN thường bóp tốc độ theo **từng kết nối** chứ không theo tổng, mở nhiều kết nối cho tốc độ tăng gần như tuyến tính.
 
 - **Kết nối thông minh**: app tự chọn số kết nối phù hợp cho từng máy chủ, không cần chỉnh tay.
 - **Work-stealing**: kết nối nào xong sớm sẽ nhảy vào giúp phần còn lại, không để kết nối nào rảnh.
