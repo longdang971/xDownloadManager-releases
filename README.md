@@ -38,7 +38,7 @@ Dán link `.m3u8` (hoặc để extension bắt hộ), app trả về file `.mp4
 - **Giải mã AES-128** tự động.
 - Tải song song các segment, **tiếp tục được từ chỗ dừng**, hiển thị tiến trình ghép tệp thật.
 
-### 🔗 Extension Chrome bắt link tự động
+### 🔗 Extension trình duyệt bắt link tự động
 
 - Nhận diện video/media trên trang, kể cả **HLS ẩn trong MSE/blob** (hook `fetch` / `XHR` / `createObjectURL`).
 - Hiện nút **"Tải video"** nổi ngay trên thẻ `<video>`, kèm **menu chuột phải**.
@@ -91,11 +91,29 @@ Kéo & thả URL vào app, dán bằng `Cmd+V`, bấm nút **+**, hoặc để e
 
 ---
 
-## 🧩 Cài extension cho Chrome
+## 🧩 Cài extension cho trình duyệt
+
+Extension nằm sẵn trong repo này, thư mục [`extension/`](extension) — có bản cho cả Chrome và Firefox. Tải repo về bằng nút **Code → Download ZIP** rồi giải nén, hoặc:
+
+```bash
+git clone https://github.com/longdang971/xDownloadManager-releases.git
+```
+
+### Chrome (và Edge, Brave, Cốc Cốc…)
 
 1. Mở `chrome://extensions` → bật **Developer mode** (góc phải trên).
-2. Bấm **Load unpacked** → chọn thư mục `extension/`.
-3. **Chạy app trước**, rồi ghé trang có video: nút **"Tải video"** sẽ hiện trên trình phát.
+2. Bấm **Load unpacked** → chọn thư mục `extension/xDM-extension-for-Chrome`.
+
+### Firefox (140+)
+
+1. Mở `about:debugging#/runtime/this-firefox`.
+2. Bấm **Load Temporary Add-on…** → chọn file `extension/xDM-extension-for-FireFox/manifest.json`.
+
+> Firefox chỉ giữ add-on tạm thời tới khi đóng trình duyệt; mở lại thì phải load lại.
+
+### Dùng thử
+
+**Chạy app trước**, rồi ghé trang có video — nút **"Tải video"** sẽ hiện trên trình phát, hoặc chuột phải vào link → **Tải với xDownload**.
 
 > ⚠️ App phải đang chạy thì extension mới gửi link được (cổng `127.0.0.1:10008`).
 

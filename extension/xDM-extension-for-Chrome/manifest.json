@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "xDownload Manager",
+  "version": "1.0.0",
+  "description": "Chuyển các tải xuống từ trình duyệt sang xDownload Manager để tải xuống với tốc độ cao.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+  },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "content_scripts": [
+    { "matches": ["http://*/*", "https://*/*"], "js": ["inject.js"], "run_at": "document_start", "all_frames": true, "world": "MAIN" },
+    { "matches": ["http://*/*", "https://*/*"], "js": ["relay.js"], "run_at": "document_start", "all_frames": true },
+    { "matches": ["http://*/*", "https://*/*"], "js": ["content.js"], "run_at": "document_idle", "all_frames": true }
+  ],
+  "permissions": ["webRequest", "storage", "contextMenus", "cookies", "downloads"],
+  "host_permissions": ["<all_urls>", "http://127.0.0.1/*"],
+  "web_accessible_resources": [
+    { "resources": ["icons/icon48.png", "icons/icon128.png"], "matches": ["<all_urls>"] }
+  ],
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+}
