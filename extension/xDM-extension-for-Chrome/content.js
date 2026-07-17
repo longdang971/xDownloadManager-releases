@@ -66,35 +66,52 @@
       const st = document.createElement("style");
       st.id = "xdl-overlay-style";
       st.textContent = `
-.xdl-ov{position:absolute;z-index:${Z};display:inline-flex;align-items:stretch;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;pointer-events:none;opacity:.8;transition:opacity .15s;}
-.xdl-ov:hover{opacity:1;}
-.xdl-close{display:inline-flex;align-items:center;justify-content:center;width:22px;align-self:stretch;
-  background:linear-gradient(135deg,#4F6BF0,#8B5CF6);color:#fff;font-size:12px;font-weight:700;line-height:1;
-  cursor:pointer;pointer-events:auto;user-select:none;border-left:1px solid rgba(255,255,255,.45);
-  box-shadow:0 2px 6px rgba(50,40,120,.4);transition:filter .12s;}
-.xdl-close:hover{filter:brightness(1.08);}
-.xdl-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 35px 5px 9px;border-radius:0;
-  background:linear-gradient(135deg,#4F6BF0,#8B5CF6);color:#fff;font-size:10px;line-height:1;font-weight:700;
-  cursor:pointer;pointer-events:auto;user-select:none;box-shadow:0 2px 6px rgba(50,40,120,.4);
-  border:none;transition:filter .12s,transform .12s;}
-.xdl-btn:hover{filter:brightness(1.08);}
-.xdl-btn:active{transform:translateY(1px);}
-.xdl-btn img{width:13px;height:13px;display:block;flex:0 0 auto;border-radius:3px;background:#fff;
-  box-shadow:0 0 0 1px rgba(255,255,255,.35);}
-.xdl-panel{position:absolute;z-index:${Z};margin-top:0;min-width:180px;max-width:360px;
-  background:#1c1c1e;color:#fff;border-radius:0;pointer-events:auto;overflow:hidden;
-  box-shadow:0 8px 22px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);
-  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;}
-.xdl-row{display:flex;align-items:center;justify-content:space-between;gap:7px;
-  padding:6px 9px;font-size:11px;cursor:pointer;border-top:1px solid rgba(255,255,255,.06);transition:background .1s;}
+.xdl-ov{position:absolute;z-index:${Z};display:inline-flex;align-items:stretch;isolation:isolate;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  pointer-events:none;opacity:.92;border-radius:0;overflow:hidden;border:1px solid transparent;
+  background:linear-gradient(135deg,rgba(26,24,40,.82),rgba(15,17,25,.86)) padding-box,
+             linear-gradient(135deg,#c631ff,#4dc4fe) border-box;
+  -webkit-backdrop-filter:blur(12px) saturate(160%);backdrop-filter:blur(12px) saturate(160%);
+  box-shadow:0 5px 16px rgba(8,6,26,.42),0 0 11px rgba(160,70,240,.18);
+  transition:opacity .18s ease,box-shadow .18s ease;}
+.xdl-ov:hover{opacity:1;box-shadow:0 7px 20px rgba(10,6,30,.5),0 0 16px rgba(198,49,255,.32);}
+.xdl-btn{display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 6px;
+  background:transparent;
+  color:#fff;font-size:11px;line-height:1;font-weight:600;letter-spacing:.01em;
+  cursor:pointer;pointer-events:auto;user-select:none;border:none;transition:background .15s ease;}
+.xdl-btn:hover{background:transparent;}
+.xdl-btn:focus-visible{outline:2px solid #8fe3ff;outline-offset:-2px;}
+.xdl-btn img{width:15px;height:15px;display:block;flex:0 0 auto;border-radius:4px;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));}
+.xdl-label{white-space:nowrap;}
+.xdl-close{display:inline-flex;align-items:center;justify-content:center;align-self:center;
+  width:16px;height:16px;margin:0 5px 0 5px;border-radius:5px;
+  background:rgba(255,255,255,.14);color:rgba(255,255,255,.82);
+  cursor:pointer;pointer-events:auto;user-select:none;
+  transition:color .15s ease,background .15s ease;}
+.xdl-close:hover{color:#fff;background:#f43f5e;}
+.xdl-close:focus-visible{outline:2px solid #8fe3ff;outline-offset:1px;}
+.xdl-close svg{display:block;width:9px;height:9px;}
+.xdl-panel{position:absolute;z-index:${Z};margin-top:0;min-width:190px;max-width:360px;
+  color:#fff;border-radius:0;pointer-events:auto;overflow:hidden;border:1px solid transparent;
+  background:linear-gradient(135deg,rgba(24,22,38,.93),rgba(14,16,24,.95)) padding-box,
+             linear-gradient(135deg,rgba(198,49,255,.55),rgba(77,196,254,.55)) border-box;
+  -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  box-shadow:0 12px 32px rgba(6,4,22,.55),0 0 16px rgba(150,60,230,.14);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;}
+.xdl-row{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:7px 10px;font-size:11px;cursor:pointer;border-top:1px solid rgba(255,255,255,.06);transition:background .12s ease;}
 .xdl-row:first-of-type{border-top:none;}
-.xdl-row:hover{background:rgba(79,107,240,.22);}
+.xdl-row:hover{background:linear-gradient(90deg,rgba(198,49,255,.20),rgba(77,196,254,.12));}
 .xdl-namecol{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;}
-.xdl-row .xdl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;}
+.xdl-row .xdl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-weight:500;}
 .xdl-row .xdl-detail{font-size:9px;color:#9aa0b4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.xdl-row .xdl-badge{flex:0 0 auto;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:800;
-  color:#dfe3ff;background:rgba(79,107,240,.30);}
-.xdl-row .xdl-badge.xdl-q{color:#0b1020;background:linear-gradient(135deg,#7fe7c4,#5ec8ff);}
+.xdl-row .xdl-badge{flex:0 0 auto;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.03em;
+  color:#d7e2ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);}
+.xdl-row .xdl-badge.xdl-q{color:#08131f;border-color:transparent;background:#4dc4fe;}
+@media (prefers-reduced-motion:reduce){
+  .xdl-ov,.xdl-btn,.xdl-close,.xdl-row{transition:none;}
+}
 `;
       (document.head || document.documentElement).appendChild(st);
     } catch (_) {  }
@@ -140,7 +157,7 @@
     label.textContent = buttonLabel();
     btn.appendChild(label);
 
-    btn.addEventListener("click", (e) => {
+    const activate = (e) => {
       e.preventDefault();
       e.stopPropagation();
       try {
@@ -150,7 +167,11 @@
           togglePanel(video);
         }
       } catch (_) {}
-    }, true);
+    };
+    btn.tabIndex = 0;
+    btn.setAttribute("aria-label", buttonLabel());
+    btn.addEventListener("click", activate, true);
+    btn.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") activate(e); }, true);
 
     for (const ev of ["mousedown", "mouseup", "dblclick", "pointerdown"]) {
       btn.addEventListener(ev, (e) => e.stopPropagation(), true);
@@ -237,14 +258,18 @@
     const close = document.createElement("div");
     close.className = "xdl-close";
     close.setAttribute("role", "button");
+    close.setAttribute("aria-label", "Ẩn nút tải video");
+    close.tabIndex = 0;
     close.title = "Ẩn nút tải video";
-    close.textContent = "×";
-    close.addEventListener("click", (e) => {
+    close.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5 L18.5 18.5 M18.5 5.5 L5.5 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
+    const closeAct = (e) => {
       e.preventDefault();
       e.stopPropagation();
       dismissed.add(video);
       removeOverlay(video);
-    }, true);
+    };
+    close.addEventListener("click", closeAct, true);
+    close.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") closeAct(e); }, true);
     for (const ev of ["mousedown", "mouseup", "dblclick", "pointerdown"]) {
       close.addEventListener(ev, (e) => e.stopPropagation(), true);
     }
