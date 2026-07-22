@@ -7,8 +7,35 @@ const chrome = globalThis.browser ?? globalThis.chrome;
 const APP_BASE_URL = "http://127.0.0.1:10008";
 const APP_ADD_URL = `${APP_BASE_URL}/add`;
 const APP_PING_URL = `${APP_BASE_URL}/ping`;
+const APP_CHECK_URL = `${APP_BASE_URL}/check`;
 
 let cachedToken = null;
+let cachedBrowserId = null;
+
+// Nhận diện trình duyệt hiện tại để app (tab Tiện ích) biết CHÍNH XÁC trình duyệt nào đã cài tiện
+// ích. Gửi kèm header `X-XDL-Browser` trên mỗi /ping và /add.
+async function getBrowserId() {
+  if (cachedBrowserId) return cachedBrowserId;
+  try {
+    if (globalThis.browser?.runtime?.getBrowserInfo) {
+      const info = await browser.runtime.getBrowserInfo();
+      const n = (info?.name || "").toLowerCase();
+      cachedBrowserId = n.includes("firefox") ? "firefox" : (n || "firefox");
+      return cachedBrowserId;
+    }
+  } catch {}
+  const ua = globalThis.navigator?.userAgent || "";
+  if (/Edg\//.test(ua)) cachedBrowserId = "edge";
+  else if (/OPR\//.test(ua)) cachedBrowserId = "opera";
+  else if (/Vivaldi/.test(ua)) cachedBrowserId = "vivaldi";
+  else {
+    cachedBrowserId = "chrome";
+    try {
+      if (globalThis.navigator?.brave && (await navigator.brave.isBrave())) cachedBrowserId = "brave";
+    } catch {}
+  }
+  return cachedBrowserId;
+}
 
 async function pingAndCaptureToken() {
   try {
@@ -23,6 +50,24 @@ async function pingAndCaptureToken() {
     return { ok: true, token };
   } catch {
     return { ok: false, token: null };
+  }
+}
+
+// Check-in MỘT LẦN với app khi trình duyệt/tiện ích khởi động. Gửi `X-XDL-Browser` để app (tab
+// Tiện ích) biết CHÍNH trình duyệt này đã cài tiện ích. Cũng nhận token luôn để khỏi gọi /ping riêng.
+async function checkIn() {
+  try {
+    const r = await fetch(APP_CHECK_URL, { headers: { "X-XDL-Browser": await getBrowserId() } });
+    if (!r.ok) return false;
+    const j = await r.json().catch(() => null);
+    const token = (j && j.token) || null;
+    if (token) {
+      cachedToken = token;
+      chrome.storage.local.set({ appToken: token }).catch(() => {});
+    }
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -221,7 +266,12 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "Tải bằng xDownload Manager",
     contexts: ["link", "video", "audio", "image"],
   });
+  // Check-in ngay khi cài để app hiện đúng trình duyệt này ở tab Tiện ích (Cài đặt).
+  checkIn();
 });
+
+// Check-in một lần mỗi khi trình duyệt khởi động (không cần quyền mới).
+chrome.runtime.onStartup.addListener(() => { checkIn(); });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const url = info.linkUrl || info.srcUrl;

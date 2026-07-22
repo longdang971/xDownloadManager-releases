@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "xDownload Manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chuyển các tải xuống từ trình duyệt sang xDownload Manager để tải xuống với tốc độ cao.",
   "action": {
     "default_popup": "popup.html",
